@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">ChessLogger</string>
+    <string name="king_notation">R</string>
+    <string name="queen_notation">D</string>
+    <string name="bishop_notation">F</string>
+    <string name="knight_notation">C</string>
+    <string name="rook_notation">T</string>
+    <string name="pawn_notation" />
+    <string name="A_notation">a</string>
+    <string name="B_notation">b</string>
+    <string name="C_notation">c</string>
+    <string name="D_notation">d</string>
+    <string name="E_notation">e</string>
+    <string name="F_notation">f</string>
+    <string name="G_notation">g</string>
+    <string name="H_notation">h</string>
+    <string name="one_notation">1</string>
+    <string name="two_notation">2</string>
+    <string name="three_notation">3</string>
+    <string name="four_notation">4</string>
+    <string name="five_notation">5</string>
+    <string name="six_notation">6</string>
+    <string name="seven_notation">7</string>
+    <string name="eight_notation">8</string>
+    <string name="small_castling_notation">0-0</string>
+    <string name="large_castling_notation">0-0-0</string>
+    <string name="check_notation">+</string>
+    <string name="checkmate_notation">#</string>
+    <string name="piece">Piece</string>
+    <string name="letter">Letter</string>
+    <string name="number">Number</string>
+    <string name="special">Special</string>
+    <string name="take_notation" >x</string>
 </resources>

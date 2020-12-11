@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ChessLogger</string>
+    <string name="king_notation">R</string>
+    <string name="queen_notation">D</string>
+    <string name="knight_notation">C</string>
+    <string name="rook_notation">T</string>
+    <string name="pawn_notation" />
+    <string name="piece">Piece</string>
+    <string name="letter">Letter</string>
+    <string name="number">Number</string>
+    <string name="special">Special</string>
+    <string name="take_notation" >x</string>
+</resources>

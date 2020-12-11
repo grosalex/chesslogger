@@ -1,9 +1,6 @@
 package com.grosalex.chesslogger.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -16,6 +13,7 @@ import com.grosalex.chesslogger.states.fakeStore
 import com.grosalex.chesslogger.ui.primaryDark
 import org.rekotlin.StoreType
 
+@ExperimentalLayout
 @Composable
 fun MainScaffold(
     store: StoreType<AppState>,
@@ -37,6 +35,7 @@ fun MainScaffold(
         }
     }
 
+@ExperimentalLayout
 @Preview
 @Composable
 fun PreviewMainScaffold() = MainScaffold(fakeStore())
