@@ -6,12 +6,12 @@ import androidx.compose.ui.platform.setContent
 import com.grosalex.chesslogger.components.MainScaffold
 import com.grosalex.chesslogger.ui.ChessLoggerTheme
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ChessKoin {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ChessLoggerTheme() {
-                MainScaffold()
+                MainScaffold(store)
             }
         }
     }

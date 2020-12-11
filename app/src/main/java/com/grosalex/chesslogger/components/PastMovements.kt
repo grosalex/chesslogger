@@ -10,7 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.grosalex.chesslogger.states.AppState
+import com.grosalex.chesslogger.states.fakeStore
 import com.grosalex.chesslogger.ui.black
+import org.rekotlin.StoreType
 
 
 val list = listOf(
@@ -19,8 +22,8 @@ val list = listOf(
 )
 
 @Composable
-fun PastMovements(moves: List<Pair<String, String>> = list) =
-    LazyColumnFor(moves) { item ->
+fun PastMovements(store: StoreType<AppState>) =
+    LazyColumnFor(store.state.currentGameState.lastMoves) { item ->
         PairedMovement(moves = item)
     }
 
@@ -41,4 +44,4 @@ fun Movement(movement: String?) = Box(
 
 @Composable
 @Preview
-fun PreviewPastMovement() = PastMovements(list)
+fun PreviewPastMovement() = PastMovements(fakeStore())
