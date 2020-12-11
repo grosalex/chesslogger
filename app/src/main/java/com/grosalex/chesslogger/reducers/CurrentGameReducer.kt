@@ -1,5 +1,6 @@
 package com.grosalex.chesslogger.reducers
 
+import androidx.compose.runtime.setValue
 import com.grosalex.chesslogger.actions.CurrentGameActions
 import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.states.CurrentGameState

@@ -32,7 +32,7 @@ fun MainScaffold(
             Modifier.padding(16.dp).fillMaxSize(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            PastMovements(store = store)
+            PastMovements(store)
             Controls(store = store)
         }
     }
