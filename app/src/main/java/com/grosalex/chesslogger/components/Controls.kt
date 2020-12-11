@@ -8,8 +8,10 @@ import com.grosalex.chesslogger.states.AppState
 import org.rekotlin.StoreType
 
 @Composable
-fun Controls(store: StoreType<AppState>) = Button(onClick = {
-    store.dispatch(CurrentGameActions.AddMove("a7"))
-}) {
-    Text(text = "Test")
-}
+fun Controls(store: StoreType<AppState>) =
+    Button(
+        onClick = {
+            store.dispatch(CurrentGameActions.AddMove("a7"))
+        }) {
+        Text(text = "Test")
+    }
