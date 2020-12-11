@@ -11,6 +11,6 @@ data class AppState(
 
 fun fakeStore(): Store<AppState> = Store(
     ::appStateReducer, AppState(
-        currentGameState = CurrentGameState(listOf(Pair("e5", "e6"), Pair("d4", "d7")))
+        currentGameState = CurrentGameState()
     )
 )

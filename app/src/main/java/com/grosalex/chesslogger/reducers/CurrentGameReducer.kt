@@ -11,23 +11,25 @@ fun currentGameReducer(action: Action, state: AppState): CurrentGameState {
 
     when (action) {
         is CurrentGameActions.AddMove -> {
+            val currentMove = state.currentMove
             val lastMove = state.lastMoves.lastOrNull()
             if (lastMove != null && lastMove.first == null) {
                 val oldMoves = state.lastMoves.toMutableList()
                 oldMoves.removeLast()
-                state = state.copy(lastMoves = oldMoves + Pair(action.move, null))
+                state = state.copy(lastMoves = oldMoves + Pair(currentMove, null))
             } else if (lastMove != null && lastMove.second == null) {
                 val oldMoves = state.lastMoves.toMutableList()
                 val previous = oldMoves.removeLast()
                 state = state.copy(
-                    lastMoves = oldMoves + Pair(previous.first, action.move) + (Pair(
+                    lastMoves = oldMoves + Pair(previous.first, currentMove) + (Pair(
                         null,
                         null
                     ))
                 )
             } else {
-                state = state.copy(lastMoves = state.lastMoves + Pair(action.move, null))
+                state = state.copy(lastMoves = state.lastMoves + Pair(currentMove, null))
             }
+            state = state.copy(currentMove = emptyList())
         }
 
         is CurrentGameActions.KeyPressed -> {

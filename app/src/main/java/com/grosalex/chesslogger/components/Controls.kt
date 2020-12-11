@@ -43,6 +43,10 @@ fun Controls(store: StoreType<AppState>) =
             Special.values().forEach {
                 ControlButton(store = store, it)
             }
+
+            FullLineButton(
+                text = stringResource(id = R.string.add_annotation),
+                onClick = { store.dispatch(CurrentGameActions.AddMove()) })
         }
     }
 
@@ -58,3 +62,12 @@ fun ControlButton(store: StoreType<AppState>, key: Key) = Button(
 @Composable
 fun FullLineText(text: String) =
     Text(modifier = Modifier.fillMaxWidth(), text = text, fontWeight = FontWeight.Bold)
+
+@Composable
+fun FullLineButton(text: String, onClick: () -> Unit) =
+    Button(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onClick
+    ) {
+        Text(text = text)
+    }

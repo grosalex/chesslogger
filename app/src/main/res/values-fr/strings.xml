@@ -11,4 +11,5 @@
     <string name="number">Number</string>
     <string name="special">Special</string>
     <string name="take_notation" >x</string>
+    <string name="add_annotation">Annoter</string>
 </resources>

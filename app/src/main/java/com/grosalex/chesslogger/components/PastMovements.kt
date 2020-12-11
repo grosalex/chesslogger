@@ -35,10 +35,12 @@ fun PastMovements(store: StoreType<AppState>) {
 
 
 @Composable
-fun PairedMovement(moves: Pair<String?, String?>, currentMove: List<Key>) {
+fun PairedMovement(moves: Pair<List<Key>?, List<Key>?>, currentMove: List<Key>) {
     Row {
-        Movement(movement = moves.first, if (moves.first == null) currentMove else null)
-        Movement(movement = moves.second, if (moves.first != null) currentMove else null)
+        Movement(movement = moves.first?.map { stringResource(id = it.notationStringRes) }
+            ?.joinToString(separator = ""), if (moves.first == null) currentMove else null)
+        Movement(movement = moves.second?.map { stringResource(id = it.notationStringRes) }
+            ?.joinToString(separator = ""), if (moves.first != null) currentMove else null)
     }
 }
 
