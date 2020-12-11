@@ -29,6 +29,10 @@ fun currentGameReducer(action: Action, state: AppState): CurrentGameState {
                 state = state.copy(lastMoves = state.lastMoves + Pair(action.move, null))
             }
         }
+
+        is CurrentGameActions.KeyPressed -> {
+            state = state.copy(currentMove = state.currentMove + action.key)
+        }
     }
 
     return state
