@@ -2,6 +2,8 @@ package com.grosalex.chesslogger.ui
 
 import androidx.compose.ui.graphics.Color
 
+val black = Color(0XFF000000)
+
 val primary  = Color(0xFF0091ea)
 val primaryLight = Color(0xFF64c1ff)
 val primaryDark = Color(0xFF0064b7)
