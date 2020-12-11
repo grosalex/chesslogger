@@ -19,26 +19,26 @@ val list = listOf(
 )
 
 @Composable
-fun pastMovements(moves: List<Pair<String, String>> = list) =
+fun PastMovements(moves: List<Pair<String, String>> = list) =
     LazyColumnFor(moves) { item ->
-        pairedMovement(moves = item)
+        PairedMovement(moves = item)
     }
 
 
 @Composable
-fun pairedMovement(moves: Pair<String?, String?>) {
+fun PairedMovement(moves: Pair<String?, String?>) {
     Row {
-        movement(movement = moves.first)
-        movement(movement = moves.second)
+        Movement(movement = moves.first)
+        Movement(movement = moves.second)
     }
 }
 
 @Composable
-fun movement(movement: String?) = Box(
+fun Movement(movement: String?) = Box(
     modifier = Modifier.border(1.dp, black).padding(4.dp)
 ) { Text(modifier = Modifier.padding(8.dp), text = movement.orEmpty()) }
 
 
 @Composable
 @Preview
-fun previewPastMovement() = pastMovements(list)
+fun PreviewPastMovement() = PastMovements(list)

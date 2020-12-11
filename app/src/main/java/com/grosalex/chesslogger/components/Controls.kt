@@ -5,6 +5,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun controls() = Button(onClick = {}) {
+fun Controls() = Button(onClick = {}) {
     Text(text = "Test")
 }

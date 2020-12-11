@@ -14,21 +14,21 @@ import androidx.compose.ui.unit.dp
 import com.grosalex.chesslogger.ui.primaryDark
 
 @Composable
-fun mainScaffold(scaffoldState: ScaffoldState = rememberScaffoldState()) = Scaffold(
+fun MainScaffold(scaffoldState: ScaffoldState = rememberScaffoldState()) = Scaffold(
     scaffoldState = scaffoldState,
-    topBar = { topAppBar(scaffoldState = scaffoldState) },
-    drawerContent = { mainDrawerContent() },
+    topBar = { TopAppBar(scaffoldState = scaffoldState) },
+    drawerContent = { MainDrawerContent() },
     drawerBackgroundColor = primaryDark,
 
     ) {
     Row(
         Modifier.padding(16.dp).fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
-        pastMovements()
-        controls()
+        PastMovements()
+        Controls()
     }
 }
 
 @Preview
 @Composable
-fun previewMainScaffold() = mainScaffold()
+fun PreviewMainScaffold() = MainScaffold()

@@ -5,7 +5,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun mainDrawerContent()  = Column() {
+fun MainDrawerContent()  = Column() {
     Text(text = "test 1")
     Text(text = "test 1")
     Text(text = "test 1")
