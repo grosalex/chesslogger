@@ -44,7 +44,26 @@ fun currentGameReducer(action: Action, state: AppState): CurrentGameState {
         }
         is CurrentGameActions.RemoveLastMove -> {
             if (state.currentMove.isEmpty()) {
-                TODO("Remove last move is not implemented")
+                val lastMove = state.lastMoves.lastOrNull()
+                if (lastMove?.first.isNullOrEmpty() && lastMove?.second.isNullOrEmpty()) {
+                    //remove last and second of the one before
+                    val lastMoves = state.lastMoves.toMutableList()
+                    lastMoves.removeLast()
+                    val last = lastMoves.removeLastOrNull()
+                    lastMoves.add(last?.copy(second = null) ?: Pair(null, null))
+                    state = state.copy(lastMoves = lastMoves)
+                } else if (!lastMove?.first.isNullOrEmpty() && lastMove?.second.isNullOrEmpty()) {
+                    // remove last first
+                    val lastMoves = state.lastMoves.toMutableList()
+                    val last = lastMoves.removeLast()
+                    lastMoves.add(last.copy(first = null))
+                    state = state.copy(lastMoves = lastMoves)
+                } else if (!lastMove?.first.isNullOrEmpty() && !lastMove?.second.isNullOrEmpty()) {
+                    val lastMoves = state.lastMoves.toMutableList()
+                    val last = lastMoves.removeLast()
+                    lastMoves.add(last.copy(second = null))
+                    state = state.copy(lastMoves = lastMoves)
+                }
             } else {
                 state = state.copy(currentMove = emptyList())
             }
