@@ -32,4 +32,6 @@
     <string name="special">Special</string>
     <string name="take_notation" >x</string>
     <string name="add_annotation">Add Annotation</string>
+    <string name="cancel_last_annotation">Cancel</string>
+    <string name="erased">Erase</string>
 </resources>

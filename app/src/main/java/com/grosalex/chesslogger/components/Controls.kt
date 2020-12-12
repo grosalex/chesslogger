@@ -23,35 +23,48 @@ import org.rekotlin.StoreType
 @Composable
 fun Controls(store: StoreType<AppState>) =
     ScrollableColumn(modifier = Modifier.padding(start = 8.dp)) {
-        FlowRow() {
+        FlowRow {
             FullLineText(text = stringResource(id = R.string.piece))
             Piece.values().forEach {
-                ControlButton(store = store, it)
+                KeyControlButton(store = store, it)
             }
 
             FullLineText(text = stringResource(id = R.string.letter))
             LETTER.values().forEach {
-                ControlButton(store = store, it)
+                KeyControlButton(store = store, it)
             }
 
             FullLineText(text = stringResource(id = R.string.number))
             Number.values().forEach {
-                ControlButton(store = store, it)
+                KeyControlButton(store = store, it)
             }
 
             FullLineText(text = stringResource(id = R.string.special))
             Special.values().forEach {
-                ControlButton(store = store, it)
+                KeyControlButton(store = store, it)
+            }
+
+            Button(
+                modifier = Modifier.padding(8.dp),
+                onClick = { store.dispatch(CurrentGameActions.RemoveLastMove()) }) {
+                Text(text = stringResource(id = R.string.cancel_last_annotation))
+            }
+
+            Button(
+                modifier = Modifier.padding(8.dp),
+                onClick = { store.dispatch(CurrentGameActions.Erased()) }) {
+                Text(text = stringResource(id = R.string.erased))
             }
 
             FullLineButton(
                 text = stringResource(id = R.string.add_annotation),
                 onClick = { store.dispatch(CurrentGameActions.AddMove()) })
+
         }
     }
 
 @Composable
-fun ControlButton(store: StoreType<AppState>, key: Key) = Button(
+fun KeyControlButton(store: StoreType<AppState>, key: Key) = Button(
     modifier = Modifier.padding(2.dp),
     onClick = {
         store.dispatch(CurrentGameActions.KeyPressed(key = key))
@@ -66,7 +79,7 @@ fun FullLineText(text: String) =
 @Composable
 fun FullLineButton(text: String, onClick: () -> Unit) =
     Button(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.padding(8.dp).fillMaxWidth(),
         onClick = onClick
     ) {
         Text(text = text)

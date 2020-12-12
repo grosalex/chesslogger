@@ -12,4 +12,6 @@
     <string name="special">Special</string>
     <string name="take_notation" >x</string>
     <string name="add_annotation">Annoter</string>
+    <string name="cancel_last_annotation">Annuler</string>
+    <string name="erased">Effacer</string>
 </resources>

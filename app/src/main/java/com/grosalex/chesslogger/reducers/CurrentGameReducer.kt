@@ -1,5 +1,6 @@
 package com.grosalex.chesslogger.reducers
 
+import android.util.Log
 import com.grosalex.chesslogger.actions.CurrentGameActions
 import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.states.CurrentGameState
@@ -34,6 +35,19 @@ fun currentGameReducer(action: Action, state: AppState): CurrentGameState {
 
         is CurrentGameActions.KeyPressed -> {
             state = state.copy(currentMove = state.currentMove + action.key)
+        }
+
+        is CurrentGameActions.Erased -> {
+            val oldCurrentMove = state.currentMove.toMutableList()
+            oldCurrentMove.removeLastOrNull()
+            state = state.copy(currentMove = oldCurrentMove)
+        }
+        is CurrentGameActions.RemoveLastMove -> {
+            if (state.currentMove.isEmpty()) {
+                TODO("Remove last move is not implemented")
+            } else {
+                state = state.copy(currentMove = emptyList())
+            }
         }
     }
 
