@@ -10,6 +10,12 @@ fun currentGameReducer(action: Action, state: AppState): CurrentGameState {
     var state = state.currentGameState
 
     when (action) {
+        is CurrentGameActions.SetWhitePlayerName -> {
+            state = state.copy(players = state.players.copy(first = action.name))
+        }
+        is CurrentGameActions.SetBlackPlayerName -> {
+            state = state.copy(players = state.players.copy(second = action.name))
+        }
         is CurrentGameActions.AddMove -> {
             val currentMove = state.currentMove
             val lastMove = state.lastMoves.lastOrNull()

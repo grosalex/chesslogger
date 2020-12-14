@@ -8,4 +8,6 @@ class CurrentGameActions {
     class RemoveLastMove : Action
     data class KeyPressed(val key: Key) : Action
     class Erased : Action
+    data class SetWhitePlayerName(val name: String) : Action
+    data class SetBlackPlayerName(val name: String) : Action
 }
