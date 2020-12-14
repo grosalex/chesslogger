@@ -14,4 +14,6 @@
     <string name="add_annotation">Annoter</string>
     <string name="cancel_last_annotation">Annuler</string>
     <string name="erased">Effacer</string>
+    <string name="white_player">Blanc</string>
+    <string name="black_player">Noir</string>
 </resources>

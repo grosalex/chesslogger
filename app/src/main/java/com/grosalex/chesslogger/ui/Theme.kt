@@ -12,7 +12,8 @@ val lightColors = lightColors(
     secondary = secondary,
     secondaryVariant = secondaryLight,
     onPrimary = textOnPrimary,
-    onSecondary = textOnSecondary
+    onSecondary = textOnSecondary,
+    onSurface = transparent,
     /* Other default colors to override
   background = Color.White,
   surface = Color.White,
