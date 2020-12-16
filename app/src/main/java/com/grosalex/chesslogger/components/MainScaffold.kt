@@ -27,7 +27,6 @@ fun MainScaffold(
         topBar = { TopAppBar(scaffoldState = scaffoldState) },
         drawerContent = { MainDrawerContent() },
         drawerBackgroundColor = primaryDark,
-
         ) {
         Column() {
             PlayersRow(store = store)
@@ -60,34 +59,6 @@ fun PlayersRow(store: StoreType<AppState>) {
             isWhitePlayer = false
         )
     }
-}
-
-@Composable
-fun PlayerTextField(
-    store: StoreType<AppState>,
-    modifier: Modifier = Modifier,
-    label: Int,
-    isWhitePlayer: Boolean
-) {
-    var textState by remember { mutableStateOf(if (isWhitePlayer) store.state.currentGameState.players.first else store.state.currentGameState.players.second) }
-    store.subscribe(BlockSubscriber { state ->
-        textState = if (isWhitePlayer)
-            store.state.currentGameState.players.first
-        else store.state.currentGameState.players.second
-    })
-    TextField(
-        value = textState,
-        onValueChange = {
-            if (isWhitePlayer) {
-                store.dispatch(CurrentGameActions.SetWhitePlayerName(it))
-            } else {
-                store.dispatch(CurrentGameActions.SetBlackPlayerName(it))
-            }
-        },
-        label = { Text(text = stringResource(id = label)) },
-        inactiveColor = black,
-        modifier = modifier.padding(8.dp)
-    )
 }
 
 @ExperimentalLayout
