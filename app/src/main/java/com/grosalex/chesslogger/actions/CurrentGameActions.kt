@@ -10,4 +10,5 @@ class CurrentGameActions {
     class Erased : Action
     data class SetWhitePlayerName(val name: String) : Action
     data class SetBlackPlayerName(val name: String) : Action
+    data class Save(val title: String) : Action
 }

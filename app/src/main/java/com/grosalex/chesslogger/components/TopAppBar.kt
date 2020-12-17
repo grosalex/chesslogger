@@ -11,10 +11,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.grosalex.chesslogger.R
+import com.grosalex.chesslogger.actions.CurrentGameActions
+import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.ui.textOnPrimary
+import org.rekotlin.StoreType
 
 @Composable
-fun TopAppBar(scaffoldState: ScaffoldState) {
+fun TopAppBar(scaffoldState: ScaffoldState, store: StoreType<AppState>) {
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
     TopAppBar(
         title = {
@@ -36,12 +39,13 @@ fun TopAppBar(scaffoldState: ScaffoldState) {
             }
         }
     )
-    SaveDialog(showDialog = showDialog, setShowDialog = setShowDialog)
+    SaveDialog(store = store, showDialog = showDialog, setShowDialog = setShowDialog)
 }
 
 @Composable
-fun SaveDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
+fun SaveDialog(store: StoreType<AppState>, showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
     if (showDialog) {
+        val textState = remember { mutableStateOf(TextFieldValue()) }
         AlertDialog(
             onDismissRequest = {
             },
@@ -52,6 +56,7 @@ fun SaveDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
                 Button(
                     onClick = {
                         setShowDialog(false)
+                        store.dispatch(CurrentGameActions.Save(textState.value.text))
                     },
                 ) {
                     Text(stringResource(id = R.string.save))
@@ -67,7 +72,9 @@ fun SaveDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
                 }
             },
             text = {
-                DefaultTextField(modifier = Modifier.padding(8.dp))
+                DefaultTextField(modifier = Modifier.padding(8.dp)) {
+                    textState.value = it
+                }
             },
         )
     }

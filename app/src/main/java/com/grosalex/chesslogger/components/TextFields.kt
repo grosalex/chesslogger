@@ -17,12 +17,13 @@ import org.rekotlin.StoreType
 
 
 @Composable
-fun DefaultTextField(modifier: Modifier = Modifier) {
+fun DefaultTextField(modifier: Modifier = Modifier, onValueChange: (TextFieldValue) -> Unit = {}) {
     val textState = remember { mutableStateOf(TextFieldValue()) }
     TextField(
         value = textState.value,
         onValueChange = {
             textState.value = it
+            onValueChange.invoke(it)
         },
         modifier = modifier,
         label = {

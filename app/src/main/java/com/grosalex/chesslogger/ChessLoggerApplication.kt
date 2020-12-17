@@ -11,6 +11,8 @@ import org.rekotlin.StoreType
 
 class ChessLoggerApplication : Application(), ChessKoin {
 
+    val database by lazy { AppDatabase.getDatabase(this) }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -18,6 +20,7 @@ class ChessLoggerApplication : Application(), ChessKoin {
             androidContext(this@ChessLoggerApplication)
             modules(myModules())
         }
+        app = this
     }
 
     private fun myModules() = module {
@@ -27,5 +30,9 @@ class ChessLoggerApplication : Application(), ChessKoin {
                 state = AppState()
             )
         }
+    }
+
+    companion object{
+        lateinit var app: ChessLoggerApplication
     }
 }

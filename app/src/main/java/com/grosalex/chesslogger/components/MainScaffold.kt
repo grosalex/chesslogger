@@ -4,16 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.grosalex.chesslogger.R
-import com.grosalex.chesslogger.actions.CurrentGameActions
 import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.states.fakeStore
-import com.grosalex.chesslogger.ui.black
 import com.grosalex.chesslogger.ui.primaryDark
-import org.rekotlin.BlockSubscriber
 import org.rekotlin.StoreType
 
 @ExperimentalLayout
@@ -24,7 +20,7 @@ fun MainScaffold(
 ) =
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = { TopAppBar(scaffoldState = scaffoldState) },
+        topBar = { TopAppBar(scaffoldState = scaffoldState, store) },
         drawerContent = { MainDrawerContent() },
         drawerBackgroundColor = primaryDark,
         ) {
