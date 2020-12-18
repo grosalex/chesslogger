@@ -19,4 +19,6 @@
     <string name="save">Sauvegarder</string>
     <string name="cancel">Annuler</string>
     <string name="title">Titre</string>
+    <string name="new_game">Nouvelle partie</string>
+    <string name="saved_game">Parties sauvegardées</string>
 </resources>
