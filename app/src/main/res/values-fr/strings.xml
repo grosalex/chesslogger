@@ -21,4 +21,5 @@
     <string name="title">Titre</string>
     <string name="new_game">Nouvelle partie</string>
     <string name="saved_game">Parties sauvegardées</string>
+    <string name="game_detail">Partie</string>
 </resources>

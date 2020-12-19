@@ -2,14 +2,12 @@ package com.grosalex.chesslogger.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,6 +18,7 @@ import com.grosalex.chesslogger.states.fakeStore
 import com.grosalex.chesslogger.ui.primaryDark
 import org.rekotlin.BlockSubscriber
 import org.rekotlin.StoreType
+import androidx.navigation.compose.navigate
 
 @ExperimentalLayout
 @Composable
@@ -37,16 +36,30 @@ fun MainScaffold(
     ) {
         NavHost(navController = navController, startDestination = Screen.NewGame.route) {
             composable(Screen.NewGame.route) { NewGame(store = store) }
-            composable(Screen.SavedGames.route) { SavedGames(store = store) }
+            composable(Screen.SavedGames.route) { SavedGames(store = store, navController = navController) }
+            composable("gameDetail/{uid}") { navBackStackEntry ->
+                SavedGame(navBackStackEntry.arguments?.getString("uid"))
+            }
         }
     }
 }
 
 @Composable
-fun SavedGames(store: StoreType<AppState>) {
+fun SavedGame(gameId: String?) {
+    Text(text = gameId ?: " lol ")
+}
+
+@Composable
+fun SavedGames(store: StoreType<AppState>, navController: NavController) {
     val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
     LazyColumnFor(items = savedGames.value) {
-        Text(text = it.title)
+        TextButton(onClick = {
+            navController.navigate("gameDetail/{${it.uid}}")
+        }) {
+            Text(
+                text = it.title
+            )
+        }
     }
 }
 
