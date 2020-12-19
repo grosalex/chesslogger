@@ -35,26 +35,14 @@ fun DefaultTextField(modifier: Modifier = Modifier, onValueChange: (TextFieldVal
 
 @Composable
 fun PlayerTextField(
-    store: StoreType<AppState>,
     modifier: Modifier = Modifier,
     label: Int,
-    isWhitePlayer: Boolean
+    onValueChange: (String) -> Unit,
+    playerName:String
 ) {
-    var textState by remember { mutableStateOf(if (isWhitePlayer) store.state.currentGameState.players.first else store.state.currentGameState.players.second) }
-    store.subscribe(BlockSubscriber { state ->
-        textState = if (isWhitePlayer)
-            store.state.currentGameState.players.first
-        else store.state.currentGameState.players.second
-    })
     TextField(
-        value = textState,
-        onValueChange = {
-            if (isWhitePlayer) {
-                store.dispatch(CurrentGameActions.SetWhitePlayerName(it))
-            } else {
-                store.dispatch(CurrentGameActions.SetBlackPlayerName(it))
-            }
-        },
+        value = playerName,
+        onValueChange = onValueChange,
         label = { Text(text = stringResource(id = label)) },
         inactiveColor = black,
         modifier = modifier.padding(8.dp)

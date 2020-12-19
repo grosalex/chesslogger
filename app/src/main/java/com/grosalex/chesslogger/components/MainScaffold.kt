@@ -14,9 +14,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.grosalex.chesslogger.R
+import com.grosalex.chesslogger.actions.CurrentGameActions
 import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.states.fakeStore
 import com.grosalex.chesslogger.ui.primaryDark
+import org.rekotlin.BlockSubscriber
 import org.rekotlin.StoreType
 
 @ExperimentalLayout
@@ -43,7 +45,6 @@ fun MainScaffold(
 @Composable
 fun SavedGames(store: StoreType<AppState>) {
     val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
-
     LazyColumnFor(items = savedGames.value) {
         Text(text = it.title)
     }
@@ -70,17 +71,27 @@ fun PlayersRow(store: StoreType<AppState>) {
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxWidth()
     ) {
+        var whitePlayerName by remember { mutableStateOf(store.state.currentGameState.players.first) }
+        var blackPlayerName by remember { mutableStateOf(store.state.currentGameState.players.second) }
+        store.subscribe(BlockSubscriber { state ->
+            whitePlayerName = store.state.currentGameState.players.first
+            blackPlayerName = store.state.currentGameState.players.second
+        })
         PlayerTextField(
-            store = store,
             modifier = Modifier.weight(1f),
             label = R.string.white_player,
-            isWhitePlayer = true
+            onValueChange = {
+                store.dispatch(CurrentGameActions.SetWhitePlayerName(it))
+            },
+            whitePlayerName
         )
         PlayerTextField(
-            store = store,
             modifier = Modifier.weight(1f),
             label = R.string.black_player,
-            isWhitePlayer = false
+            onValueChange = {
+                store.dispatch(CurrentGameActions.SetBlackPlayerName(it))
+            },
+            blackPlayerName
         )
     }
 }
