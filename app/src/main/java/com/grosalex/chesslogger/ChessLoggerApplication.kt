@@ -1,20 +1,31 @@
 package com.grosalex.chesslogger
 
 import android.app.Application
+import com.grosalex.chesslogger.entities.Game
+import com.grosalex.chesslogger.middleware.databaseMiddleware
 import com.grosalex.chesslogger.reducers.appStateReducer
 import com.grosalex.chesslogger.states.AppState
+import com.grosalex.chesslogger.states.SavedGamesState
+import kotlinx.coroutines.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.rekotlin.Store
 import org.rekotlin.StoreType
+import kotlin.coroutines.CoroutineContext
 
-class ChessLoggerApplication : Application(), ChessKoin {
+class ChessLoggerApplication : Application(), ChessKoin, CoroutineScope {
 
+    private lateinit var job: Job
     val database by lazy { AppDatabase.getDatabase(this) }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
     override fun onCreate() {
         super.onCreate()
+
+        job = Job()
 
         startKoin {
             androidContext(this@ChessLoggerApplication)
@@ -27,12 +38,25 @@ class ChessLoggerApplication : Application(), ChessKoin {
         single<StoreType<AppState>> {
             Store(
                 reducer = ::appStateReducer,
-                state = AppState()
+                state = loadAppState(),
+                middleware = listOf(databaseMiddleware)
             )
         }
     }
 
-    companion object{
+    private fun loadAppState(): AppState {
+        var state = AppState()
+        state = state.copy(savedGamesState = SavedGamesState(database.gameDao().getAll()))
+        return state
+    }
+
+    fun addGame(game: Game) {
+        launch {
+            database.gameDao().addGame(game)
+        }
+    }
+
+    companion object {
         lateinit var app: ChessLoggerApplication
     }
 }

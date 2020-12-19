@@ -1,11 +1,12 @@
 package com.grosalex.chesslogger.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,7 +42,11 @@ fun MainScaffold(
 
 @Composable
 fun SavedGames(store: StoreType<AppState>) {
-    Text(text = "TODO")
+    val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
+
+    LazyColumnFor(items = savedGames.value) {
+        Text(text = it.title)
+    }
 }
 
 @ExperimentalLayout

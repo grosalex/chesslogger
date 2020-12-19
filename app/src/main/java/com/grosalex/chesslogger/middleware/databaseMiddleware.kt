@@ -12,8 +12,9 @@ val databaseMiddleware: Middleware<AppState> = { dispatch, getState ->
             when (action) {
                 is CurrentGameActions.Save -> {
                     val currentGameState = getState()?.currentGameState!!
-                    ChessLoggerApplication.app.database.gameDao().addGame(
+                    ChessLoggerApplication.app.addGame(
                         Game(
+                            title = action.title,
                             whitePlayerName = currentGameState.players.first,
                             blackPlayerName = currentGameState.players.second,
                             moves = currentGameState.lastMoves

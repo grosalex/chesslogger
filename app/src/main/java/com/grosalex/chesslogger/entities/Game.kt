@@ -9,6 +9,7 @@ import com.grosalex.chesslogger.models.Key
 data class Game(
     @PrimaryKey(autoGenerate = true)
     val uid: Int = 0,
+    val title:String,
     @ColumnInfo(name = "white_player_name") val whitePlayerName: String,
     @ColumnInfo(name = "black_player_name") val blackPlayerName: String,
     val moves: List<Pair<List<Key>?, List<Key>?>>

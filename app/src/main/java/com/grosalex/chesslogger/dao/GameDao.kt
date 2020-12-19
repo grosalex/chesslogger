@@ -4,12 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.grosalex.chesslogger.entities.Game
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GameDao {
     @Query("SELECT * FROM game")
-    fun getAll(): List<Game>
+    fun getAll(): Flow<List<Game>>
 
     @Insert
-    fun addGame(game: Game)
+    suspend fun addGame(game: Game)
 }

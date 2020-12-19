@@ -6,7 +6,8 @@ import org.rekotlin.StateType
 import org.rekotlin.Store
 
 data class AppState(
-    val currentGameState: CurrentGameState = CurrentGameState()
+    val currentGameState: CurrentGameState = CurrentGameState(),
+    val savedGamesState: SavedGamesState = SavedGamesState()
 ) : StateType
 
 
