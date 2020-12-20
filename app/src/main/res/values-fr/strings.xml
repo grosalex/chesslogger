@@ -6,10 +6,10 @@
     <string name="knight_notation">C</string>
     <string name="rook_notation">T</string>
     <string name="pawn_notation" />
-    <string name="piece">Piece</string>
-    <string name="letter">Letter</string>
-    <string name="number">Number</string>
-    <string name="special">Special</string>
+    <string name="piece">Pièces</string>
+    <string name="letter">Lettres</string>
+    <string name="number">Nombres</string>
+    <string name="special">Spécials</string>
     <string name="take_notation" >x</string>
     <string name="add_annotation">Annoter</string>
     <string name="cancel_last_annotation">Annuler</string>

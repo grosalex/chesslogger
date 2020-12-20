@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 
 val lightColors = lightColors(
     primary = primary,
-    primaryVariant = primaryLight,
+    primaryVariant = primaryDark,
     secondary = secondary,
-    secondaryVariant = secondaryLight,
+    secondaryVariant = secondaryDark,
     onPrimary = textOnPrimary,
     onSecondary = textOnSecondary,
-    onSurface = transparent,
+    onSurface = transparent
     /* Other default colors to override
   background = Color.White,
   surface = Color.White,
