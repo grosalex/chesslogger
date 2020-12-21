@@ -38,15 +38,27 @@ fun MainScaffold(
             composable(Screen.NewGame.route) { NewGame(store = store) }
             composable(Screen.SavedGames.route) { SavedGames(store = store, navController = navController) }
             composable("gameDetail/{uid}") { navBackStackEntry ->
-                SavedGame(navBackStackEntry.arguments?.getString("uid"))
+                SavedGame(store, navBackStackEntry.arguments?.getString("uid"))
             }
         }
     }
 }
 
 @Composable
-fun SavedGame(gameId: String?) {
-    Text(text = gameId ?: " lol ")
+fun SavedGame(store: StoreType<AppState>, gameId: String?) {
+    val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
+    val savedGame = savedGames.value.find { it.uid.toString() == gameId }
+    val moves = savedGame?.moves
+    if(moves.isNullOrEmpty()){
+        Text(text = "It's empty")
+    } else {
+        Column() {
+            Row {
+                MovementsList(movements = moves, currentMove = emptyList())
+            }
+        }
+    }
+
 }
 
 @Composable
@@ -54,7 +66,7 @@ fun SavedGames(store: StoreType<AppState>, navController: NavController) {
     val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
     LazyColumnFor(items = savedGames.value) {
         TextButton(onClick = {
-            navController.navigate("gameDetail/{${it.uid}}")
+            navController.navigate("gameDetail/${it.uid}")
         }) {
             Text(
                 text = it.title
@@ -66,13 +78,19 @@ fun SavedGames(store: StoreType<AppState>, navController: NavController) {
 @ExperimentalLayout
 @Composable
 fun NewGame(store: StoreType<AppState>) {
+    var lastMoves by remember { mutableStateOf(store.state.currentGameState.lastMoves) }
+    var currentMove by remember { mutableStateOf(store.state.currentGameState.currentMove) }
+    store.subscribe(BlockSubscriber { appState ->
+        lastMoves = appState.currentGameState.lastMoves
+        currentMove = appState.currentGameState.currentMove
+    })
     Column() {
         PlayersRow(store = store)
         Row(
             Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp).fillMaxSize(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            PastMovements(store)
+            MovementsList(lastMoves, currentMove)
             Controls(store = store)
         }
     }
