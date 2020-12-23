@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.grosalex.chesslogger.R
 import com.grosalex.chesslogger.actions.CurrentGameActions
 import com.grosalex.chesslogger.models.*
-import com.grosalex.chesslogger.models.Number
 import com.grosalex.chesslogger.states.AppState
 import org.rekotlin.StoreType
 
@@ -25,22 +24,22 @@ fun Controls(store: StoreType<AppState>) =
     ScrollableColumn(modifier = Modifier.padding(start = 8.dp)) {
         FlowRow {
             FullLineText(text = stringResource(id = R.string.piece))
-            Piece.values().forEach {
+            Key.pieces.forEach {
                 KeyControlButton(store = store, it)
             }
 
             FullLineText(text = stringResource(id = R.string.letter))
-            LETTER.values().forEach {
+            Key.letters.forEach {
                 KeyControlButton(store = store, it)
             }
 
             FullLineText(text = stringResource(id = R.string.number))
-            Number.values().forEach {
+            Key.numbers.forEach {
                 KeyControlButton(store = store, it)
             }
 
             FullLineText(text = stringResource(id = R.string.special))
-            Special.values().forEach {
+            Key.specials.forEach {
                 KeyControlButton(store = store, it)
             }
 

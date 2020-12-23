@@ -1,123 +1,126 @@
 package com.grosalex.chesslogger.models
 
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.google.gson.TypeAdapter
+import com.google.gson.annotations.JsonAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
 import com.grosalex.chesslogger.R
 
-interface Key {
-    val notationStringRes: Int
-}
+@JsonAdapter(Key.Adapter::class)
+sealed class Key(val notationStringRes: Int, val type:String) {
 
-enum class Piece : Key {
-    KING {
-        override val notationStringRes: Int
-            get() = R.string.king_notation
-    },
-    QUEEN {
-        override val notationStringRes: Int
-            get() = R.string.queen_notation
-    },
-    BISHOP {
-        override val notationStringRes: Int
-            get() = R.string.bishop_notation
-    },
-    KNIGHT {
-        override val notationStringRes: Int
-            get() = R.string.knight_notation
-    },
-    ROOK {
-        override val notationStringRes: Int
-            get() = R.string.rook_notation
-    };
-}
+    object KING : Key(R.string.king_notation, type = "king")
+    object QUEEN : Key(R.string.queen_notation, type = "queen")
+    object BISHOP : Key(R.string.bishop_notation, type = "bishop")
+    object KNIGHT : Key(R.string.knight_notation, type = "knight")
+    object ROOK : Key(R.string.rook_notation, type = "rook")
 
-enum class LETTER : Key {
-    A {
-        override val notationStringRes: Int
-            get() = R.string.A_notation
-    },
-    B {
-        override val notationStringRes: Int
-            get() = R.string.B_notation
-    },
-    C {
-        override val notationStringRes: Int
-            get() = R.string.C_notation
-    },
-    D {
-        override val notationStringRes: Int
-            get() = R.string.D_notation
-    },
-    E {
-        override val notationStringRes: Int
-            get() = R.string.E_notation
-    },
-    F {
-        override val notationStringRes: Int
-            get() = R.string.F_notation
-    },
-    G {
-        override val notationStringRes: Int
-            get() = R.string.G_notation
-    },
-    H {
-        override val notationStringRes: Int
-            get() = R.string.H_notation
-    },
-}
+    object A : Key(R.string.A_notation, type = "a")
+    object B : Key(R.string.B_notation, type = "b")
+    object C : Key(R.string.C_notation, type = "c")
+    object D : Key(R.string.D_notation, type = "d")
+    object E : Key(R.string.E_notation, type = "e")
+    object F : Key(R.string.F_notation, type = "f")
+    object G : Key(R.string.G_notation, type = "g")
+    object H : Key(R.string.H_notation, type = "h")
 
-enum class Number : Key {
-    ONE {
-        override val notationStringRes: Int
-            get() = R.string.one_notation
-    },
-    TWO {
-        override val notationStringRes: Int
-            get() = R.string.two_notation
-    },
-    THREE {
-        override val notationStringRes: Int
-            get() = R.string.three_notation
-    },
-    FOUR {
-        override val notationStringRes: Int
-            get() = R.string.four_notation
-    },
-    FIVE {
-        override val notationStringRes: Int
-            get() = R.string.five_notation
-    },
-    SIX {
-        override val notationStringRes: Int
-            get() = R.string.six_notation
-    },
-    SEVEN {
-        override val notationStringRes: Int
-            get() = R.string.seven_notation
-    },
-    EIGHT {
-        override val notationStringRes: Int
-            get() = R.string.eight_notation
-    };
-}
+    object ONE : Key(R.string.one_notation, type = "1")
+    object TWO : Key(R.string.two_notation, type = "2")
+    object THREE : Key(R.string.three_notation, type = "3")
+    object FOUR : Key(R.string.four_notation, type = "4")
+    object FIVE : Key(R.string.five_notation, type = "5")
+    object SIX : Key(R.string.six_notation, type = "6")
+    object SEVEN : Key(R.string.seven_notation, type = "7")
+    object EIGHT : Key(R.string.eight_notation, type = "8")
 
-enum class Special : Key {
-    TAKE {
-        override val notationStringRes: Int
-            get() = R.string.take_notation
-    },
-    TO_CHECK {
-        override val notationStringRes: Int
-            get() = R.string.check_notation
-    },
-    CHECKMATE {
-        override val notationStringRes: Int
-            get() = R.string.checkmate_notation
-    },
-    OO {
-        override val notationStringRes: Int
-            get() = R.string.small_castling_notation
-    },
-    OOO {
-        override val notationStringRes: Int
-            get() = R.string.large_castling_notation
-    };
+    object TAKE : Key(R.string.take_notation, type = "take")
+    object TO_CHECK : Key(R.string.check_notation, type = "check")
+    object CHECKMATE : Key(R.string.checkmate_notation, type = "checkmate")
+    object OO : Key(R.string.small_castling_notation, type = "OO")
+    object OOO : Key(R.string.large_castling_notation, type = "OOO")
+
+    companion object {
+        val pieces = listOf(KING, QUEEN, BISHOP, KNIGHT, ROOK)
+
+        val letters = listOf(A, B, C, D, E, F, G, H)
+
+        val numbers = listOf(
+            ONE,
+            TWO,
+            THREE,
+            FOUR,
+            FIVE,
+            SIX,
+            SEVEN,
+            EIGHT
+        )
+
+        val specials = listOf(
+            TAKE,
+            TO_CHECK,
+            CHECKMATE,
+            OO,
+            OOO
+        )
+    }
+
+    class Adapter(private val field: String = "type") : TypeAdapter<Key>() {
+        override fun read(reader: JsonReader): Key? {
+            val parser = JsonParser()
+            val jsonObject = try {
+                parser.parse(reader)?.asJsonObject ?: return null
+            } catch (e: IllegalStateException) {
+                throw Exception()
+            }
+            val type = try {
+                jsonObject.get(field).asJsonPrimitive.asString
+            } catch (e: IllegalStateException) {
+                throw Exception()
+            }
+            return readObject(jsonObject, type)
+        }
+
+        override fun write(writer: JsonWriter, value: Key?) {
+            when (value) {
+                null -> writer.nullValue()
+                else -> Gson().toJson(value, value.javaClass, writer)
+            }
+        }
+
+        fun readObject(jsonObject: JsonObject, type: String): Key {
+            return when (type) {
+                "king" -> Gson().fromJson(jsonObject, KING::class.java)
+                "queen" -> Gson().fromJson(jsonObject, QUEEN::class.java)
+                "bishop" -> Gson().fromJson(jsonObject, BISHOP::class.java)
+                "knight" -> Gson().fromJson(jsonObject, KNIGHT::class.java)
+                "rook" -> Gson().fromJson(jsonObject, ROOK::class.java)
+                "a" -> Gson().fromJson(jsonObject, A::class.java)
+                "b" -> Gson().fromJson(jsonObject, B::class.java)
+                "c" -> Gson().fromJson(jsonObject, C::class.java)
+                "d" -> Gson().fromJson(jsonObject, D::class.java)
+                "e" -> Gson().fromJson(jsonObject, E::class.java)
+                "f" -> Gson().fromJson(jsonObject, F::class.java)
+                "g" -> Gson().fromJson(jsonObject, G::class.java)
+                "h" -> Gson().fromJson(jsonObject, H::class.java)
+                "1" -> Gson().fromJson(jsonObject, ONE::class.java)
+                "2" -> Gson().fromJson(jsonObject, TWO::class.java)
+                "3" -> Gson().fromJson(jsonObject, THREE::class.java)
+                "4" -> Gson().fromJson(jsonObject, FOUR::class.java)
+                "5" -> Gson().fromJson(jsonObject, FIVE::class.java)
+                "6" -> Gson().fromJson(jsonObject, SIX::class.java)
+                "7" -> Gson().fromJson(jsonObject, SEVEN::class.java)
+                "8" -> Gson().fromJson(jsonObject, EIGHT::class.java)
+                "take" -> Gson().fromJson(jsonObject, TAKE::class.java)
+                "check" -> Gson().fromJson(jsonObject, TO_CHECK::class.java)
+                "checkmate" -> Gson().fromJson(jsonObject, CHECKMATE::class.java)
+                "OO" -> Gson().fromJson(jsonObject, OO::class.java)
+                "OOO" -> Gson().fromJson(jsonObject, OOO::class.java)
+                else -> throw Exception()
+            }
+        }
+    }
+
 }
