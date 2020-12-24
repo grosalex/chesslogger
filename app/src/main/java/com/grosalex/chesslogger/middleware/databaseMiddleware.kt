@@ -17,7 +17,8 @@ val databaseMiddleware: Middleware<AppState> = { dispatch, getState ->
                             title = action.title,
                             whitePlayerName = currentGameState.players.first,
                             blackPlayerName = currentGameState.players.second,
-                            moves = currentGameState.lastMoves
+                            whiteMoves =  currentGameState.lastMoves.map { it.first },
+                            blackMoves = currentGameState.lastMoves.map { it.second }
                         )
                     )
                 }

@@ -19,6 +19,7 @@ import com.grosalex.chesslogger.ui.primaryDark
 import org.rekotlin.BlockSubscriber
 import org.rekotlin.StoreType
 import androidx.navigation.compose.navigate
+import com.grosalex.chesslogger.entities.moves
 
 @ExperimentalLayout
 @Composable
@@ -48,7 +49,7 @@ fun MainScaffold(
 fun SavedGame(store: StoreType<AppState>, gameId: String?) {
     val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
     val savedGame = savedGames.value.find { it.uid.toString() == gameId }
-    val moves = savedGame?.moves
+    val moves = savedGame?.moves()
     if(moves.isNullOrEmpty()){
         Text(text = "It's empty")
     } else {
