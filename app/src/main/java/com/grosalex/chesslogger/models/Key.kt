@@ -1,5 +1,6 @@
 package com.grosalex.chesslogger.models
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -12,58 +13,58 @@ import com.grosalex.chesslogger.R
 @JsonAdapter(Key.Adapter::class)
 sealed class Key(val notationStringRes: Int, val type:String) {
 
-    object KING : Key(R.string.king_notation, type = "king")
-    object QUEEN : Key(R.string.queen_notation, type = "queen")
-    object BISHOP : Key(R.string.bishop_notation, type = "bishop")
-    object KNIGHT : Key(R.string.knight_notation, type = "knight")
-    object ROOK : Key(R.string.rook_notation, type = "rook")
+    class KING : Key(R.string.king_notation, type = "king")
+    class QUEEN : Key(R.string.queen_notation, type = "queen")
+    class BISHOP : Key(R.string.bishop_notation, type = "bishop")
+    class KNIGHT : Key(R.string.knight_notation, type = "knight")
+    class ROOK : Key(R.string.rook_notation, type = "rook")
 
-    object A : Key(R.string.A_notation, type = "a")
-    object B : Key(R.string.B_notation, type = "b")
-    object C : Key(R.string.C_notation, type = "c")
-    object D : Key(R.string.D_notation, type = "d")
-    object E : Key(R.string.E_notation, type = "e")
-    object F : Key(R.string.F_notation, type = "f")
-    object G : Key(R.string.G_notation, type = "g")
-    object H : Key(R.string.H_notation, type = "h")
+    class A : Key(R.string.A_notation, type = "a")
+    class B : Key(R.string.B_notation, type = "b")
+    class C : Key(R.string.C_notation, type = "c")
+    class D : Key(R.string.D_notation, type = "d")
+    class E : Key(R.string.E_notation, type = "e")
+    class F : Key(R.string.F_notation, type = "f")
+    class G : Key(R.string.G_notation, type = "g")
+    class H : Key(R.string.H_notation, type = "h")
 
-    object ONE : Key(R.string.one_notation, type = "1")
-    object TWO : Key(R.string.two_notation, type = "2")
-    object THREE : Key(R.string.three_notation, type = "3")
-    object FOUR : Key(R.string.four_notation, type = "4")
-    object FIVE : Key(R.string.five_notation, type = "5")
-    object SIX : Key(R.string.six_notation, type = "6")
-    object SEVEN : Key(R.string.seven_notation, type = "7")
-    object EIGHT : Key(R.string.eight_notation, type = "8")
+    class ONE : Key(R.string.one_notation, type = "1")
+    class TWO : Key(R.string.two_notation, type = "2")
+    class THREE : Key(R.string.three_notation, type = "3")
+    class FOUR : Key(R.string.four_notation, type = "4")
+    class FIVE : Key(R.string.five_notation, type = "5")
+    class SIX : Key(R.string.six_notation, type = "6")
+    class SEVEN : Key(R.string.seven_notation, type = "7")
+    class EIGHT : Key(R.string.eight_notation, type = "8")
 
-    object TAKE : Key(R.string.take_notation, type = "take")
-    object TO_CHECK : Key(R.string.check_notation, type = "check")
-    object CHECKMATE : Key(R.string.checkmate_notation, type = "checkmate")
-    object OO : Key(R.string.small_castling_notation, type = "OO")
-    object OOO : Key(R.string.large_castling_notation, type = "OOO")
+    class TAKE : Key(R.string.take_notation, type = "take")
+    class TO_CHECK : Key(R.string.check_notation, type = "check")
+    class CHECKMATE : Key(R.string.checkmate_notation, type = "checkmate")
+    class OO : Key(R.string.small_castling_notation, type = "OO")
+    class OOO : Key(R.string.large_castling_notation, type = "OOO")
 
     companion object {
-        val pieces = listOf(KING, QUEEN, BISHOP, KNIGHT, ROOK)
+        val pieces = listOf(KING(), QUEEN(), BISHOP(), KNIGHT(), ROOK())
 
-        val letters = listOf(A, B, C, D, E, F, G, H)
+        val letters = listOf(A(), B(), C(), D(), E(), F(), G(), H())
 
         val numbers = listOf(
-            ONE,
-            TWO,
-            THREE,
-            FOUR,
-            FIVE,
-            SIX,
-            SEVEN,
-            EIGHT
+            ONE(),
+            TWO(),
+            THREE(),
+            FOUR(),
+            FIVE(),
+            SIX(),
+            SEVEN(),
+            EIGHT()
         )
 
         val specials = listOf(
-            TAKE,
-            TO_CHECK,
-            CHECKMATE,
-            OO,
-            OOO
+            TAKE(),
+            TO_CHECK(),
+            CHECKMATE(),
+            OO(),
+            OOO()
         )
     }
 
@@ -84,6 +85,7 @@ sealed class Key(val notationStringRes: Int, val type:String) {
         }
 
         override fun write(writer: JsonWriter, value: Key?) {
+            Log.e("JSON ADAPTER WRITE", value.toString())
             when (value) {
                 null -> writer.nullValue()
                 else -> Gson().toJson(value, value.javaClass, writer)
@@ -91,6 +93,7 @@ sealed class Key(val notationStringRes: Int, val type:String) {
         }
 
         fun readObject(jsonObject: JsonObject, type: String): Key {
+            Log.e("JSON ADAPTER READ", jsonObject.toString())
             return when (type) {
                 "king" -> Gson().fromJson(jsonObject, KING::class.java)
                 "queen" -> Gson().fromJson(jsonObject, QUEEN::class.java)
