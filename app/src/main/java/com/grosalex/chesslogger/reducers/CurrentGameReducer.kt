@@ -1,6 +1,6 @@
 package com.grosalex.chesslogger.reducers
 
-import com.grosalex.chesslogger.actions.CurrentGameActions
+import com.grosalex.chesslogger.actions.GameActions
 import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.states.CurrentGameState
 import org.rekotlin.Action
@@ -10,13 +10,13 @@ fun currentGameReducer(action: Action, state: AppState): CurrentGameState {
     var state = state.currentGameState
 
     when (action) {
-        is CurrentGameActions.SetWhitePlayerName -> {
+        is GameActions.SetWhitePlayerName -> {
             state = state.copy(players = state.players.copy(first = action.name))
         }
-        is CurrentGameActions.SetBlackPlayerName -> {
+        is GameActions.SetBlackPlayerName -> {
             state = state.copy(players = state.players.copy(second = action.name))
         }
-        is CurrentGameActions.AddMove -> {
+        is GameActions.AddMove -> {
             val currentMove = state.currentMove
             val lastMove = state.lastMoves.lastOrNull()
             if (lastMove != null && lastMove.first == null) {
@@ -38,16 +38,16 @@ fun currentGameReducer(action: Action, state: AppState): CurrentGameState {
             state = state.copy(currentMove = emptyList())
         }
 
-        is CurrentGameActions.KeyPressed -> {
+        is GameActions.KeyPressed -> {
             state = state.copy(currentMove = state.currentMove + action.key)
         }
 
-        is CurrentGameActions.Erased -> {
+        is GameActions.Erased -> {
             val oldCurrentMove = state.currentMove.toMutableList()
             oldCurrentMove.removeLastOrNull()
             state = state.copy(currentMove = oldCurrentMove)
         }
-        is CurrentGameActions.RemoveLastMove -> {
+        is GameActions.RemoveLastMove -> {
             if (state.currentMove.isEmpty()) {
                 val lastMove = state.lastMoves.lastOrNull()
                 if (lastMove?.first.isNullOrEmpty() && lastMove?.second.isNullOrEmpty()) {

@@ -9,11 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.grosalex.chesslogger.R
-import com.grosalex.chesslogger.actions.CurrentGameActions
-import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.ui.black
-import org.rekotlin.BlockSubscriber
-import org.rekotlin.StoreType
 
 
 @Composable

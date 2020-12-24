@@ -56,6 +56,12 @@ class ChessLoggerApplication : Application(), ChessKoin, CoroutineScope {
         }
     }
 
+    fun deleteGame(game: Game) {
+        launch {
+            database.gameDao().deleteGame(game)
+        }
+    }
+
     companion object {
         lateinit var app: ChessLoggerApplication
     }

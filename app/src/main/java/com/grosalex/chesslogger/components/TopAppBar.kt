@@ -11,7 +11,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.grosalex.chesslogger.R
-import com.grosalex.chesslogger.actions.CurrentGameActions
+import com.grosalex.chesslogger.actions.GameActions
 import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.ui.textOnPrimary
 import org.rekotlin.StoreType
@@ -56,7 +56,7 @@ fun SaveDialog(store: StoreType<AppState>, showDialog: Boolean, setShowDialog: (
                 Button(
                     onClick = {
                         setShowDialog(false)
-                        store.dispatch(CurrentGameActions.Save(textState.value.text))
+                        store.dispatch(GameActions.Save(textState.value.text))
                     },
                 ) {
                     Text(stringResource(id = R.string.save))

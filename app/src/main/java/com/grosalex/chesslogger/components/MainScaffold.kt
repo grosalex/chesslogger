@@ -4,22 +4,25 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.grosalex.chesslogger.R
-import com.grosalex.chesslogger.actions.CurrentGameActions
+import com.grosalex.chesslogger.actions.GameActions
+import com.grosalex.chesslogger.entities.moves
 import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.states.fakeStore
 import com.grosalex.chesslogger.ui.primaryDark
+import com.grosalex.chesslogger.ui.separator
 import org.rekotlin.BlockSubscriber
 import org.rekotlin.StoreType
-import androidx.navigation.compose.navigate
-import com.grosalex.chesslogger.entities.moves
 
 @ExperimentalLayout
 @Composable
@@ -37,7 +40,12 @@ fun MainScaffold(
     ) {
         NavHost(navController = navController, startDestination = Screen.NewGame.route) {
             composable(Screen.NewGame.route) { NewGame(store = store) }
-            composable(Screen.SavedGames.route) { SavedGames(store = store, navController = navController) }
+            composable(Screen.SavedGames.route) {
+                SavedGames(
+                    store = store,
+                    navController = navController
+                )
+            }
             composable("gameDetail/{uid}") { navBackStackEntry ->
                 SavedGame(store, navBackStackEntry.arguments?.getString("uid"))
             }
@@ -50,7 +58,7 @@ fun SavedGame(store: StoreType<AppState>, gameId: String?) {
     val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
     val savedGame = savedGames.value.find { it.uid.toString() == gameId }
     val moves = savedGame?.moves()
-    if(moves.isNullOrEmpty()){
+    if (moves.isNullOrEmpty()) {
         Text(text = "It's empty")
     } else {
         Column() {
@@ -66,13 +74,35 @@ fun SavedGame(store: StoreType<AppState>, gameId: String?) {
 fun SavedGames(store: StoreType<AppState>, navController: NavController) {
     val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
     LazyColumnFor(items = savedGames.value) {
-        TextButton(onClick = {
-            navController.navigate("gameDetail/${it.uid}")
-        }) {
-            Text(
-                text = it.title
-            )
+        TextButton(
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 16.dp),
+            onClick = {
+                navController.navigate("gameDetail/${it.uid}")
+            }) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    modifier = Modifier.align(alignment = Alignment.CenterVertically),
+                    text = it.title
+                )
+                IconButton(
+                    onClick = {
+                        store.dispatch(GameActions.Delete(it))
+                    },
+                    modifier = Modifier.align(Alignment.Bottom),
+                ) {
+                    Icon(
+                        imageVector = vectorResource(id = R.drawable.ic_delete),
+                    )
+                }
+            }
         }
+        Surface(
+            modifier = Modifier.fillMaxWidth().height(1.dp).padding(start = 16.dp, end = 16.dp),
+            color = separator
+        ) {}
     }
 }
 
@@ -113,7 +143,7 @@ fun PlayersRow(store: StoreType<AppState>) {
             modifier = Modifier.weight(1f),
             label = R.string.white_player,
             onValueChange = {
-                store.dispatch(CurrentGameActions.SetWhitePlayerName(it))
+                store.dispatch(GameActions.SetWhitePlayerName(it))
             },
             whitePlayerName
         )
@@ -121,7 +151,7 @@ fun PlayersRow(store: StoreType<AppState>) {
             modifier = Modifier.weight(1f),
             label = R.string.black_player,
             onValueChange = {
-                store.dispatch(CurrentGameActions.SetBlackPlayerName(it))
+                store.dispatch(GameActions.SetBlackPlayerName(it))
             },
             blackPlayerName
         )

@@ -1,6 +1,7 @@
 package com.grosalex.chesslogger.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.grosalex.chesslogger.entities.Game
@@ -13,4 +14,7 @@ interface GameDao {
 
     @Insert
     suspend fun addGame(game: Game)
+
+    @Delete
+    suspend fun deleteGame(game: Game)
 }

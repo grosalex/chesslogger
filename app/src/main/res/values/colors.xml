@@ -8,4 +8,5 @@
     <color name="secondaryDark">#00b147</color>
     <color name="textOnPrimary">#FFFFFF</color>
     <color name="textOnSecondary">#FFFFFF</color>
+    <color name="separator">#B3000000</color>
 </resources>

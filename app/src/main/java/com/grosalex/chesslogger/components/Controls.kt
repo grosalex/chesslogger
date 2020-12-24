@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.grosalex.chesslogger.R
-import com.grosalex.chesslogger.actions.CurrentGameActions
+import com.grosalex.chesslogger.actions.GameActions
 import com.grosalex.chesslogger.models.*
 import com.grosalex.chesslogger.states.AppState
 import org.rekotlin.StoreType
@@ -45,19 +45,19 @@ fun Controls(store: StoreType<AppState>) =
 
             Button(
                 modifier = Modifier.padding(8.dp),
-                onClick = { store.dispatch(CurrentGameActions.RemoveLastMove()) }) {
+                onClick = { store.dispatch(GameActions.RemoveLastMove()) }) {
                 Text(text = stringResource(id = R.string.cancel_last_annotation))
             }
 
             Button(
                 modifier = Modifier.padding(8.dp),
-                onClick = { store.dispatch(CurrentGameActions.Erased()) }) {
+                onClick = { store.dispatch(GameActions.Erased()) }) {
                 Text(text = stringResource(id = R.string.erased))
             }
 
             FullLineButton(
                 text = stringResource(id = R.string.add_annotation),
-                onClick = { store.dispatch(CurrentGameActions.AddMove()) })
+                onClick = { store.dispatch(GameActions.AddMove()) })
 
         }
     }
@@ -66,7 +66,7 @@ fun Controls(store: StoreType<AppState>) =
 fun KeyControlButton(store: StoreType<AppState>, key: Key) = Button(
     modifier = Modifier.padding(2.dp),
     onClick = {
-        store.dispatch(CurrentGameActions.KeyPressed(key = key))
+        store.dispatch(GameActions.KeyPressed(key = key))
     }) {
     Text(text = stringResource(id = key.notationStringRes))
 }
