@@ -75,7 +75,7 @@ fun SavedGames(store: StoreType<AppState>, navController: NavController) {
     val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
     LazyColumnFor(items = savedGames.value) {
         TextButton(
-            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 16.dp),
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
             onClick = {
                 navController.navigate("gameDetail/${it.uid}")
             }) {
