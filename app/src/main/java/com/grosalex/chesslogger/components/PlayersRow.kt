@@ -3,6 +3,7 @@ package com.grosalex.chesslogger.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -12,7 +13,7 @@ import com.grosalex.chesslogger.viewmodels.NewGameViewModel
 
 
 @Composable
-fun PlayersRow(newGameViewModel: NewGameViewModel) {
+fun EditablePlayersRow(newGameViewModel: NewGameViewModel) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxWidth()
@@ -34,6 +35,21 @@ fun PlayersRow(newGameViewModel: NewGameViewModel) {
                 newGameViewModel.onBlackPlayerChanges(it)
             },
             blackPlayerName
+        )
+    }
+}
+
+@Composable
+fun PlayersRow(whitePlayerName: String, blackPlayerName: String) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = whitePlayerName
+        )
+        Text(
+            text = blackPlayerName
         )
     }
 }

@@ -63,7 +63,13 @@ fun SavedGame(savedGamesViewModel: SavedGamesViewModel, gameId: String?) {
         Text(text = "It's empty")
     } else {
         Column() {
-            Row {
+            Spacer(modifier = Modifier.height(8.dp))
+            PlayersRow(
+                whitePlayerName = savedGame.whitePlayerName,
+                blackPlayerName = savedGame.blackPlayerName
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 MovementsList(movements = moves, currentMove = emptyList())
             }
         }
