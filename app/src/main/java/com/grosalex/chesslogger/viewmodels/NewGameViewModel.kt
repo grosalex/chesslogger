@@ -3,9 +3,15 @@ package com.grosalex.chesslogger.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.grosalex.chesslogger.entities.Game
 import com.grosalex.chesslogger.models.Key
+import com.grosalex.chesslogger.repositories.SavedGameRepository
+import kotlinx.coroutines.launch
 
 class NewGameViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val savedGamesRepository: SavedGameRepository = SavedGameRepository(application)
 
     val whitePlayer: MutableLiveData<String> = MutableLiveData<String>("")
     val blackPlayer: MutableLiveData<String> = MutableLiveData<String>("")
@@ -88,6 +94,14 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun save(text: String) {
-
+        viewModelScope.launch {
+            savedGamesRepository.addGame(Game(
+                title = text,
+                whitePlayerName = whitePlayer.value.orEmpty(),
+                blackPlayerName = blackPlayer.value.orEmpty(),
+                whiteMoves = lastMoves.value?.map { it.first },
+                blackMoves = lastMoves.value?.map { it.second }
+            ))
+        }
     }
 }
