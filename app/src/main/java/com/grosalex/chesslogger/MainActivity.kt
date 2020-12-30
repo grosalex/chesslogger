@@ -7,13 +7,13 @@ import androidx.compose.ui.platform.setContent
 import com.grosalex.chesslogger.components.MainScaffold
 import com.grosalex.chesslogger.ui.ChessLoggerTheme
 
-class MainActivity : AppCompatActivity(), ChessKoin {
+class MainActivity : AppCompatActivity() {
     @ExperimentalLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ChessLoggerTheme() {
-                MainScaffold(store)
+                MainScaffold()
             }
         }
     }

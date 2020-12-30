@@ -11,13 +11,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.grosalex.chesslogger.R
-import com.grosalex.chesslogger.actions.GameActions
-import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.ui.textOnPrimary
-import org.rekotlin.StoreType
+import com.grosalex.chesslogger.viewmodels.NewGameViewModel
 
 @Composable
-fun TopAppBar(scaffoldState: ScaffoldState, store: StoreType<AppState>) {
+fun TopAppBar(scaffoldState: ScaffoldState, newGameViewModel: NewGameViewModel) {
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
     TopAppBar(
         title = {
@@ -39,11 +37,19 @@ fun TopAppBar(scaffoldState: ScaffoldState, store: StoreType<AppState>) {
             }
         }
     )
-    SaveDialog(store = store, showDialog = showDialog, setShowDialog = setShowDialog)
+    SaveDialog(
+        newGameViewModel = newGameViewModel,
+        showDialog = showDialog,
+        setShowDialog = setShowDialog
+    )
 }
 
 @Composable
-fun SaveDialog(store: StoreType<AppState>, showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
+fun SaveDialog(
+    newGameViewModel: NewGameViewModel,
+    showDialog: Boolean,
+    setShowDialog: (Boolean) -> Unit
+) {
     if (showDialog) {
         val textState = remember { mutableStateOf(TextFieldValue()) }
         AlertDialog(
@@ -56,7 +62,7 @@ fun SaveDialog(store: StoreType<AppState>, showDialog: Boolean, setShowDialog: (
                 Button(
                     onClick = {
                         setShowDialog(false)
-                        store.dispatch(GameActions.Save(textState.value.text))
+                        newGameViewModel.save(textState.value.text)
                     },
                 ) {
                     Text(stringResource(id = R.string.save))

@@ -37,7 +37,7 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.4.20'
+        kotlinCompilerVersion '1.4.21'
     }
 }
 
@@ -51,9 +51,8 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha03"
-
-    implementation 'org.rekotlin:rekotlin:1.0.4'
-
+    implementation "androidx.compose.runtime:runtime:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "org.koin:koin-core:2.2.1"
     implementation "org.koin:koin-android:2.2.1"
 

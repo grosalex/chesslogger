@@ -1,5 +1,5 @@
 package com.grosalex.chesslogger.states
-
+/*
 import com.grosalex.chesslogger.middleware.databaseMiddleware
 import com.grosalex.chesslogger.reducers.appStateReducer
 import org.rekotlin.StateType
@@ -17,4 +17,4 @@ fun fakeStore(): Store<AppState> = Store(
         currentGameState = CurrentGameState()
     ),
     middleware = listOf(databaseMiddleware)
-)
+)*/

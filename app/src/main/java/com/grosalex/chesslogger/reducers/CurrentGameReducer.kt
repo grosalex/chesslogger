@@ -1,5 +1,7 @@
 package com.grosalex.chesslogger.reducers
 
+/*
+
 import com.grosalex.chesslogger.actions.GameActions
 import com.grosalex.chesslogger.states.AppState
 import com.grosalex.chesslogger.states.CurrentGameState
@@ -76,4 +78,4 @@ fun currentGameReducer(action: Action, state: AppState): CurrentGameState {
     }
 
     return state
-}
+}*/

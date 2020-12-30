@@ -4,58 +4,57 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.grosalex.chesslogger.ChessLoggerApplication
 import com.grosalex.chesslogger.R
-import com.grosalex.chesslogger.actions.GameActions
 import com.grosalex.chesslogger.entities.moves
-import com.grosalex.chesslogger.states.AppState
-import com.grosalex.chesslogger.states.fakeStore
+import com.grosalex.chesslogger.models.Key
 import com.grosalex.chesslogger.ui.primaryDark
 import com.grosalex.chesslogger.ui.separator
-import org.rekotlin.BlockSubscriber
-import org.rekotlin.StoreType
+import com.grosalex.chesslogger.viewmodels.NewGameViewModel
+import com.grosalex.chesslogger.viewmodels.SavedGamesViewModel
 
 @ExperimentalLayout
 @Composable
 fun MainScaffold(
-    store: StoreType<AppState>,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     val navController = rememberNavController()
-
+    val savedGamesViewModel = SavedGamesViewModel(ChessLoggerApplication.app)
+    val newGameViewModel = NewGameViewModel(ChessLoggerApplication.app)
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = { TopAppBar(scaffoldState = scaffoldState, store) },
+        topBar = { TopAppBar(scaffoldState = scaffoldState, newGameViewModel = newGameViewModel) },
         drawerContent = { MainDrawerContent(scaffoldState, navController) },
         drawerBackgroundColor = primaryDark,
     ) {
         NavHost(navController = navController, startDestination = Screen.NewGame.route) {
-            composable(Screen.NewGame.route) { NewGame(store = store) }
+            composable(Screen.NewGame.route) { NewGame(newGameViewModel) }
             composable(Screen.SavedGames.route) {
                 SavedGames(
-                    store = store,
-                    navController = navController
+                    navController = navController,
+                    savedGamesViewModel
                 )
             }
             composable("gameDetail/{uid}") { navBackStackEntry ->
-                SavedGame(store, navBackStackEntry.arguments?.getString("uid"))
+                SavedGame(savedGamesViewModel, navBackStackEntry.arguments?.getString("uid"))
             }
         }
     }
 }
 
 @Composable
-fun SavedGame(store: StoreType<AppState>, gameId: String?) {
-    val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
+fun SavedGame(savedGamesViewModel: SavedGamesViewModel, gameId: String?) {
+    val savedGames = savedGamesViewModel.getAllGames().collectAsState(emptyList())
     val savedGame = savedGames.value.find { it.uid.toString() == gameId }
     val moves = savedGame?.moves()
     if (moves.isNullOrEmpty()) {
@@ -71,9 +70,9 @@ fun SavedGame(store: StoreType<AppState>, gameId: String?) {
 }
 
 @Composable
-fun SavedGames(store: StoreType<AppState>, navController: NavController) {
-    val savedGames = store.state.savedGamesState.savedGames.collectAsState(initial = emptyList())
-    LazyColumnFor(items = savedGames.value) {
+fun SavedGames(navController: NavController, savedGamesViewModel: SavedGamesViewModel) {
+    val savedGames by savedGamesViewModel.getAllGames().collectAsState(emptyList())
+    LazyColumnFor(items = savedGames) {
         TextButton(
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
             onClick = {
@@ -89,7 +88,7 @@ fun SavedGames(store: StoreType<AppState>, navController: NavController) {
                 )
                 IconButton(
                     onClick = {
-                        store.dispatch(GameActions.Delete(it))
+                        savedGamesViewModel.deleteGame(it)
                     },
                     modifier = Modifier.align(Alignment.Bottom),
                 ) {
@@ -108,42 +107,38 @@ fun SavedGames(store: StoreType<AppState>, navController: NavController) {
 
 @ExperimentalLayout
 @Composable
-fun NewGame(store: StoreType<AppState>) {
-    var lastMoves by remember { mutableStateOf(store.state.currentGameState.lastMoves) }
-    var currentMove by remember { mutableStateOf(store.state.currentGameState.currentMove) }
-    store.subscribe(BlockSubscriber { appState ->
-        lastMoves = appState.currentGameState.lastMoves
-        currentMove = appState.currentGameState.currentMove
-    })
+fun NewGame(newGameViewModel: NewGameViewModel) {
+    /*  store.subscribe(BlockSubscriber { appState ->
+          lastMoves = appState.currentGameState.lastMoves
+          currentMove = appState.currentGameState.currentMove
+      })*/
+    var lastMoves by remember { mutableStateOf(newGameViewModel.lastMoves) }
+    val currentMove by newGameViewModel.currentMove.observeAsState(mutableListOf())
     Column() {
-        PlayersRow(store = store)
+        PlayersRow(newGameViewModel)
         Row(
             Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp).fillMaxSize(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             MovementsList(lastMoves, currentMove)
-            Controls(store = store)
+            Controls(newGameViewModel = newGameViewModel)
         }
     }
 }
 
 @Composable
-fun PlayersRow(store: StoreType<AppState>) {
+fun PlayersRow(newGameViewModel: NewGameViewModel) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxWidth()
     ) {
-        var whitePlayerName by remember { mutableStateOf(store.state.currentGameState.players.first) }
-        var blackPlayerName by remember { mutableStateOf(store.state.currentGameState.players.second) }
-        store.subscribe(BlockSubscriber { state ->
-            whitePlayerName = store.state.currentGameState.players.first
-            blackPlayerName = store.state.currentGameState.players.second
-        })
+        val whitePlayerName: String by newGameViewModel.whitePlayer.observeAsState("")
+        val blackPlayerName: String by newGameViewModel.blackPlayer.observeAsState(initial = "")
         PlayerTextField(
             modifier = Modifier.weight(1f),
             label = R.string.white_player,
             onValueChange = {
-                store.dispatch(GameActions.SetWhitePlayerName(it))
+                newGameViewModel.onWhitePlayerChanges(it)
             },
             whitePlayerName
         )
@@ -151,17 +146,9 @@ fun PlayersRow(store: StoreType<AppState>) {
             modifier = Modifier.weight(1f),
             label = R.string.black_player,
             onValueChange = {
-                store.dispatch(GameActions.SetBlackPlayerName(it))
+                newGameViewModel.onBlackPlayerChanges(it)
             },
             blackPlayerName
         )
     }
 }
-
-@ExperimentalLayout
-@Preview
-@Composable
-fun PreviewMainScaffold() {
-    MainScaffold(fakeStore())
-}
-

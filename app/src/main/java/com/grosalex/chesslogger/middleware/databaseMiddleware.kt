@@ -1,4 +1,5 @@
 package com.grosalex.chesslogger.middleware
+/*
 
 import com.grosalex.chesslogger.ChessLoggerApplication
 import com.grosalex.chesslogger.actions.GameActions
@@ -30,3 +31,4 @@ val databaseMiddleware: Middleware<AppState> = { dispatch, getState ->
         }
     }
 }
+*/
