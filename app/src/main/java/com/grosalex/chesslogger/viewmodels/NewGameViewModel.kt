@@ -9,7 +9,14 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
 
     val whitePlayer: MutableLiveData<String> = MutableLiveData<String>("")
     val blackPlayer: MutableLiveData<String> = MutableLiveData<String>("")
-    val lastMoves: MutableList<Pair<List<Key>?, List<Key>?>> = mutableListOf(Pair(null, null))
+    val lastMoves: MutableLiveData<List<Pair<List<Key>?, List<Key>?>>> =
+        MutableLiveData<List<Pair<List<Key>?, List<Key>?>>>(
+            listOf(
+                Pair(
+                    null, null
+                )
+            )
+        )
     val currentMove: MutableLiveData<List<Key>> = MutableLiveData<List<Key>>(
         emptyList()
     )
@@ -32,19 +39,25 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
 
     fun removeLastMove() {
         if (currentMove.value.isNullOrEmpty()) {
-            val lastMove = lastMoves.lastOrNull()
+            val lastMove = lastMoves.value?.lastOrNull()
             if (lastMove?.first.isNullOrEmpty() && lastMove?.second.isNullOrEmpty()) {
                 //remove last and second of the one before
-                lastMoves.removeLast()
-                val last = lastMoves.removeLastOrNull()
-                lastMoves.add(last?.copy(second = null) ?: Pair(null, null))
+                val newLastMoves = lastMoves.value?.toMutableList()
+                newLastMoves?.removeLast()
+                val last = newLastMoves?.removeLastOrNull()
+                newLastMoves?.add(last?.copy(second = null) ?: Pair(null, null))
+                this.lastMoves.value = newLastMoves
             } else if (!lastMove?.first.isNullOrEmpty() && lastMove?.second.isNullOrEmpty()) {
                 // remove last first
-                val last = lastMoves.removeLast()
-                lastMoves.add(last.copy(first = null))
+                val newLastMoves = lastMoves.value?.toMutableList()
+                val last = newLastMoves?.removeLast()
+                newLastMoves?.add(last!!.copy(first = null))
+                lastMoves.value = newLastMoves
             } else if (!lastMove?.first.isNullOrEmpty() && !lastMove?.second.isNullOrEmpty()) {
-                val last = lastMoves.removeLast()
-                lastMoves.add(last.copy(second = null))
+                val newLastMoves = lastMoves.value?.toMutableList()
+                val last = newLastMoves?.removeLast()
+                newLastMoves?.add(last!!.copy(second = null))
+                lastMoves.value = newLastMoves
             }
         } else {
             currentMove.value = emptyList()
@@ -52,20 +65,24 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun addMove() {
-        val lastMove = lastMoves.lastOrNull()
+        val newLastMoves = lastMoves.value?.toMutableList()
+        val lastMove = newLastMoves?.lastOrNull()
         if (lastMove != null && lastMove.first == null) {
-            lastMoves.removeLast()
-            lastMoves.add(Pair(currentMove.value, null))
+            newLastMoves.removeLast()
+            newLastMoves.add(Pair(currentMove.value, null))
+            lastMoves.value = newLastMoves
         } else if (lastMove != null && lastMove.second == null) {
-            val previous = lastMoves.removeLast()
-            lastMoves.addAll(
+            val previous = newLastMoves.removeLast()
+            newLastMoves.addAll(
                 listOf(
                     Pair(previous.first, currentMove.value),
                     Pair(null, null)
                 )
             )
+            lastMoves.value = newLastMoves
         } else {
-            lastMoves.add(Pair(currentMove.value, null))
+            newLastMoves?.add(Pair(currentMove.value, null))
+            lastMoves.value = newLastMoves
         }
         currentMove.value = emptyList()
     }

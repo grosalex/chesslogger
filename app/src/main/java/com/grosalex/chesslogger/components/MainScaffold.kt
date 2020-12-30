@@ -3,7 +3,9 @@ package com.grosalex.chesslogger.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +19,6 @@ import androidx.navigation.compose.rememberNavController
 import com.grosalex.chesslogger.ChessLoggerApplication
 import com.grosalex.chesslogger.R
 import com.grosalex.chesslogger.entities.moves
-import com.grosalex.chesslogger.models.Key
 import com.grosalex.chesslogger.ui.primaryDark
 import com.grosalex.chesslogger.ui.separator
 import com.grosalex.chesslogger.viewmodels.NewGameViewModel
@@ -112,7 +113,14 @@ fun NewGame(newGameViewModel: NewGameViewModel) {
           lastMoves = appState.currentGameState.lastMoves
           currentMove = appState.currentGameState.currentMove
       })*/
-    var lastMoves by remember { mutableStateOf(newGameViewModel.lastMoves) }
+    val lastMoves by newGameViewModel.lastMoves.observeAsState(
+        mutableListOf(
+            Pair(
+                emptyList(),
+                emptyList()
+            )
+        )
+    )
     val currentMove by newGameViewModel.currentMove.observeAsState(mutableListOf())
     Column() {
         PlayersRow(newGameViewModel)
