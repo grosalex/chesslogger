@@ -2,7 +2,6 @@ package com.grosalex.chesslogger
 
 import android.app.Application
 import com.grosalex.chesslogger.entities.Game
-import com.grosalex.chesslogger.states.SavedGamesState
 import kotlinx.coroutines.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
