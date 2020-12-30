@@ -19,6 +19,7 @@ sealed class Screen(val route: String, @StringRes var resourceId: Int) {
 
     object NewGame : Screen("newGame", R.string.new_game)
     object SavedGames : Screen("savedGames", R.string.saved_game)
+    object SavedGameDetail : Screen("gameDetail/{uid}", R.string.saved_game)
 
     companion object {
         val list: List<Screen> = listOf(NewGame, SavedGames)

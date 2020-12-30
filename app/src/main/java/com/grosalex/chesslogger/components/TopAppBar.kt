@@ -3,6 +3,7 @@ package com.grosalex.chesslogger.components
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -10,12 +11,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.KEY_ROUTE
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grosalex.chesslogger.R
 import com.grosalex.chesslogger.ui.textOnPrimary
 import com.grosalex.chesslogger.viewmodels.NewGameViewModel
 
 @Composable
-fun TopAppBar(scaffoldState: ScaffoldState, newGameViewModel: NewGameViewModel) {
+fun TopAppBar(
+    scaffoldState: ScaffoldState,
+    navController: NavHostController,
+    newGameViewModel: NewGameViewModel
+) {
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
     TopAppBar(
         title = {
@@ -30,10 +38,23 @@ fun TopAppBar(scaffoldState: ScaffoldState, newGameViewModel: NewGameViewModel) 
             }
         },
         actions = {
-            IconButton(onClick = {
-                setShowDialog(true)
-            }) {
-                Icon(vectorResource(id = R.drawable.ic_save))
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
+            when (currentRoute) {
+                Screen.NewGame.route -> {
+                    IconButton(onClick = {
+                        setShowDialog(true)
+                    }) {
+                        Icon(vectorResource(id = R.drawable.ic_save))
+                    }
+                }
+                Screen.SavedGames.route -> {
+
+                }
+                Screen.SavedGameDetail.route -> {
+                    Text(text = "Previous")
+                    Text(text = "Next")
+                }
             }
         }
     )
