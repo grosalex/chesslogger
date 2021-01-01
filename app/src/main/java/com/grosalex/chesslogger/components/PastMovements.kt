@@ -1,11 +1,8 @@
 package com.grosalex.chesslogger.components
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,8 +14,12 @@ import com.grosalex.chesslogger.ui.black
 
 @Composable
 fun MovementsList(movements: List<Pair<List<Key>?, List<Key>?>>, currentMove: List<Key>) {
-    LazyColumnFor(movements) { item ->
-        PairedMovement(moves = item, currentMove = currentMove)
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = 16.dp)
+    ) {
+        items(movements) { item ->
+            PairedMovement(moves = item, currentMove = currentMove)
+        }
     }
 }
 

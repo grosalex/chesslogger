@@ -1,7 +1,7 @@
 package com.grosalex.chesslogger.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,36 +21,38 @@ import com.grosalex.chesslogger.viewmodels.SavedGamesViewModel
 @Composable
 fun SavedGames(navController: NavController, savedGamesViewModel: SavedGamesViewModel) {
     val savedGames by savedGamesViewModel.getAllGames().collectAsState(emptyList())
-    LazyColumnFor(items = savedGames) {
-        TextButton(
-            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
-            onClick = {
-                navController.navigate("gameDetail/${it.uid}")
-            }) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    modifier = Modifier.align(alignment = Alignment.CenterVertically),
-                    text = it.title
-                )
-                IconButton(
-                    onClick = {
-                        savedGamesViewModel.deleteGame(it)
-                    },
-                    modifier = Modifier.align(Alignment.Bottom),
+    LazyColumn() {
+        items(items = savedGames) { item ->
+            TextButton(
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+                onClick = {
+                    navController.navigate("gameDetail/${item.uid}")
+                }) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Icon(
-                        imageVector = vectorResource(id = R.drawable.ic_delete),
+                    Text(
+                        modifier = Modifier.align(alignment = Alignment.CenterVertically),
+                        text = item.title
                     )
+                    IconButton(
+                        onClick = {
+                            savedGamesViewModel.deleteGame(item)
+                        },
+                        modifier = Modifier.align(Alignment.Bottom),
+                    ) {
+                        Icon(
+                            imageVector = vectorResource(id = R.drawable.ic_delete),
+                        )
+                    }
                 }
             }
+            Surface(
+                modifier = Modifier.fillMaxWidth().height(1.dp).padding(start = 16.dp, end = 16.dp),
+                color = separator
+            ) {}
         }
-        Surface(
-            modifier = Modifier.fillMaxWidth().height(1.dp).padding(start = 16.dp, end = 16.dp),
-            color = separator
-        ) {}
     }
 }
 
