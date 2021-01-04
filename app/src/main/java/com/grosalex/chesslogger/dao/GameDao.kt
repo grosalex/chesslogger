@@ -14,9 +14,6 @@ interface GameDao {
     @Query("SELECT * FROM game")
     fun getAll(): Flow<List<Game>>
 
-/*    @Query("SELECT * FROM game")
-    fun getAllLiveData(): MutableLiveData<List<Game>>*/
-
     @Insert
     suspend fun addGame(game: Game)
 

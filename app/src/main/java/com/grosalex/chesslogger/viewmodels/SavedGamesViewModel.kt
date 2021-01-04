@@ -14,15 +14,9 @@ class SavedGamesViewModel(application: Application) : AndroidViewModel(applicati
 
     fun getAllGames() = allSavedGame
 
-    fun addGame(game: Game){
+    fun deleteGame(game: Game) {
         viewModelScope.launch {
-            savedGamesRepository.addGame(game = game)
-        }
-    }
-
-    fun deleteGame(game: Game){
-        viewModelScope.launch {
-            savedGamesRepository.deleteGame(game =game)
+            savedGamesRepository.deleteGame(game = game)
         }
     }
 }
