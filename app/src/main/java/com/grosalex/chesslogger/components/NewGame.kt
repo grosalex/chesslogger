@@ -21,6 +21,7 @@ fun NewGame(newGameViewModel: NewGameViewModel) {
     )
     val currentMove by newGameViewModel.currentMove.observeAsState(mutableListOf())
     Column() {
+        //TODO move players name in a collapsable toolbar
         EditablePlayersRow(newGameViewModel)
         Row(
             Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp).fillMaxSize(),

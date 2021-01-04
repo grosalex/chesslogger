@@ -32,11 +32,13 @@ fun PairedMovement(
     movementCount: Int
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
+        /*
+        TODO add moves count
         Text(
             modifier = Modifier.padding(end = 4.dp),
             fontWeight = FontWeight.Bold,
             text = String.format("%02d", movementCount)
-        )
+        )*/
         Movement(movement = moves.first?.map { stringResource(id = it.notationStringRes) }
             ?.joinToString(separator = ""), if (moves.first == null) currentMove else null)
         Movement(movement = moves.second?.map { stringResource(id = it.notationStringRes) }

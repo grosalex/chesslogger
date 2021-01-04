@@ -57,6 +57,7 @@ fun Controls(newGameViewModel: NewGameViewModel) =
                 Text(text = stringResource(id = R.string.erased))
             }
 
+            // TODO on tablet take less spaces
             FullLineButton(
                 text = stringResource(id = R.string.add_annotation),
                 onClick = {

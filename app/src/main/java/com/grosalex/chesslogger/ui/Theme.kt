@@ -28,7 +28,7 @@ fun ChessLoggerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compo
     } else {
         LightColorPalette
     }*/
-
+    // TODO add dark mode
     MaterialTheme(
             colors = lightColors,
             typography = typography,
