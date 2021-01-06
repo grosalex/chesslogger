@@ -1,6 +1,8 @@
 package com.grosalex.chesslogger.components
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Colors
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
@@ -25,7 +27,7 @@ fun DefaultTextField(modifier: Modifier = Modifier, onValueChange: (TextFieldVal
         label = {
             Text(text = stringResource(id = R.string.title))
         },
-        inactiveColor = black,
+        backgroundColor = MaterialTheme.colors.background,
     )
 }
 
@@ -40,7 +42,7 @@ fun PlayerTextField(
         value = playerName,
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = label)) },
-        inactiveColor = black,
+        backgroundColor = MaterialTheme.colors.background,
         modifier = modifier.padding(8.dp)
     )
 }

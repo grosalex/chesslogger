@@ -13,26 +13,33 @@ val lightColors = lightColors(
     secondaryVariant = secondaryDark,
     onPrimary = textOnPrimary,
     onSecondary = textOnSecondary,
-    onSurface = transparent
-    /* Other default colors to override
-  background = Color.White,
-  surface = Color.White,
-  onBackground = Color.Black,
-  onSurface = Color.Black,
-  */
+    surface = primaryDark,
+    onSurface = primary
 )
+
+val darkColors = darkColors(
+    primary = primary,
+    primaryVariant = primaryDark,
+    secondary = secondary,
+    onPrimary = textOnPrimary,
+    onSecondary = textOnSecondary,
+    onSurface = primary
+)
+
 @Composable
-fun ChessLoggerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
-    /*val colors = if (darkTheme) {
-        DarkColorPalette
+fun ChessLoggerTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
+) {
+    val colors = if (darkTheme) {
+        darkColors
     } else {
-        LightColorPalette
-    }*/
-    // TODO add dark mode
+        lightColors
+    }
     MaterialTheme(
-            colors = lightColors,
-            typography = typography,
-            shapes = shapes,
-            content = content
+        colors = colors,
+        typography = typography,
+        shapes = shapes,
+        content = content
     )
 }
