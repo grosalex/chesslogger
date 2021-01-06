@@ -1,14 +1,12 @@
 package com.grosalex.chesslogger.components
 
 import androidx.compose.foundation.ScrollableColumn
-import androidx.compose.foundation.layout.ExperimentalLayout
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -42,7 +40,7 @@ fun Controls(newGameViewModel: NewGameViewModel) =
             }
 
             Button(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(2.dp),
                 onClick = {
                     newGameViewModel.removeLastMove()
                 }) {
@@ -50,14 +48,14 @@ fun Controls(newGameViewModel: NewGameViewModel) =
             }
 
             Button(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(2.dp),
                 onClick = {
                     newGameViewModel.erased()
                 }) {
                 Text(text = stringResource(id = R.string.erased))
             }
 
-            // TODO on tablet take less spaces
+            ForceBreakLine()
             FullLineButton(
                 text = stringResource(id = R.string.add_annotation),
                 onClick = {
@@ -81,9 +79,15 @@ fun FullLineText(text: String) =
     Text(modifier = Modifier.fillMaxWidth(), text = text, fontWeight = FontWeight.Bold)
 
 @Composable
+fun ForceBreakLine() {
+    Spacer(modifier = Modifier.fillMaxWidth().height(0.dp))
+}
+
+@Composable
 fun FullLineButton(text: String, onClick: () -> Unit) =
     Button(
-        modifier = Modifier.padding(8.dp).fillMaxWidth(),
+        modifier = Modifier.padding(2.dp)
+            .fillMaxWidth(if (booleanResource(id = R.bool.is_tablet)) 0.5f else 1f),
         onClick = onClick
     ) {
         Text(text = text)
