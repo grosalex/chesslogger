@@ -22,4 +22,5 @@
     <string name="new_game">Nouvelle partie</string>
     <string name="saved_game">Parties sauvegardées</string>
     <string name="game_detail">Partie</string>
+    <string name="force_dark_theme">Forcer le thèmes sombres</string>
 </resources>
