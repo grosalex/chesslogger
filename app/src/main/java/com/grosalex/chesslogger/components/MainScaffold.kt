@@ -1,6 +1,7 @@
 package com.grosalex.chesslogger.components
 
 import androidx.compose.foundation.layout.ExperimentalLayout
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -12,6 +13,7 @@ import com.grosalex.chesslogger.ChessLoggerApplication
 import com.grosalex.chesslogger.viewmodels.NewGameViewModel
 import com.grosalex.chesslogger.viewmodels.SavedGamesViewModel
 
+@ExperimentalMaterialApi
 @ExperimentalLayout
 @Composable
 fun MainScaffold(
