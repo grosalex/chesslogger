@@ -24,7 +24,9 @@ fun SavedGames(navController: NavController, savedGamesViewModel: SavedGamesView
     LazyColumn() {
         items(items = savedGames) { item ->
             TextButton(
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp),
                 onClick = {
                     navController.navigate("gameDetail/${item.uid}")
                 }) {
@@ -48,10 +50,7 @@ fun SavedGames(navController: NavController, savedGamesViewModel: SavedGamesView
                     }
                 }
             }
-            Surface(
-                modifier = Modifier.fillMaxWidth().height(1.dp).padding(start = 16.dp, end = 16.dp),
-                color = separator
-            ) {}
+            VerticalSeparator()
         }
     }
 }

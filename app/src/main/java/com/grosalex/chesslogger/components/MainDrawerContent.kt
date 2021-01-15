@@ -43,7 +43,7 @@ fun MainDrawerContent(scaffoldState: ScaffoldState, navController: NavHostContro
                 ConfigViewModel.switchDarkTheme()
             }) {
             val forceDarkTheme by ConfigViewModel.forceDarkTheme.observeAsState(false)
-            Text(text = stringResource(id = R.string.force_dark_theme), color = textOnPrimary)
+            Text(text = stringResource(id = R.string.force_dark_theme))
             Switch(
                 checked = forceDarkTheme, onCheckedChange = {
                     ConfigViewModel.switchDarkTheme()
@@ -55,7 +55,10 @@ fun MainDrawerContent(scaffoldState: ScaffoldState, navController: NavHostContro
 
 @Composable
 fun DrawerItem(text: String, onClick: () -> Unit = {}) {
-    TextButton(modifier = Modifier.padding(8.dp), onClick = onClick) {
-        Text(text = text, color = textOnPrimary)
+    Column {
+        TextButton(modifier = Modifier.padding(8.dp), onClick = onClick) {
+            Text(text = text, color = MaterialTheme.colors.onSurface)
+        }
+        VerticalSeparator()
     }
 }

@@ -13,8 +13,6 @@ val lightColors = lightColors(
     secondaryVariant = secondaryDark,
     onPrimary = textOnPrimary,
     onSecondary = textOnSecondary,
-    surface = primaryDark,
-    onSurface = primary
 )
 
 val darkColors = darkColors(
@@ -23,7 +21,6 @@ val darkColors = darkColors(
     secondary = secondary,
     onPrimary = textOnPrimary,
     onSecondary = textOnSecondary,
-    onSurface = primary
 )
 
 @Composable
