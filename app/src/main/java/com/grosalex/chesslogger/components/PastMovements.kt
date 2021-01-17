@@ -14,8 +14,13 @@ import androidx.compose.ui.unit.dp
 import com.grosalex.chesslogger.models.Key
 
 @Composable
-fun MovementsList(movements: List<Pair<List<Key>?, List<Key>?>>, currentMove: List<Key>) {
+fun MovementsList(
+    modifier: Modifier = Modifier,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    movements: List<Pair<List<Key>?, List<Key>?>>, currentMove: List<Key>) {
     LazyColumn(
+        modifier = modifier,
+        horizontalAlignment = horizontalAlignment,
         contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         itemsIndexed(movements) { index, item ->

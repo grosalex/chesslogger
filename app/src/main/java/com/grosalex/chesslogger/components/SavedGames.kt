@@ -2,7 +2,10 @@ package com.grosalex.chesslogger.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,7 +17,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
 import com.grosalex.chesslogger.R
 import com.grosalex.chesslogger.entities.moves
-import com.grosalex.chesslogger.ui.separator
 import com.grosalex.chesslogger.viewmodels.SavedGamesViewModel
 
 
@@ -71,7 +73,12 @@ fun SavedGame(savedGamesViewModel: SavedGamesViewModel, gameId: String?) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                MovementsList(movements = moves, currentMove = emptyList())
+                MovementsList(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    movements = moves,
+                    currentMove = emptyList()
+                )
             }
         }
     }

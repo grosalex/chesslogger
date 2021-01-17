@@ -27,7 +27,7 @@ fun NewGame(newGameViewModel: NewGameViewModel) {
             Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp).fillMaxSize(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            MovementsList(lastMoves, currentMove)
+            MovementsList(movements = lastMoves, currentMove = currentMove)
             Controls(newGameViewModel = newGameViewModel)
         }
     }
