@@ -24,6 +24,11 @@ fun Controls(newGameViewModel: NewGameViewModel) =
                 KeyControlButton(newGameViewModel = newGameViewModel, it)
             }
 
+            FullLineText(text = stringResource(id = R.string.special))
+            Key.specials.forEach {
+                KeyControlButton(newGameViewModel = newGameViewModel, it)
+            }
+
             FullLineText(text = stringResource(id = R.string.letter))
             Key.letters.forEach {
                 KeyControlButton(newGameViewModel = newGameViewModel, it)
@@ -31,11 +36,6 @@ fun Controls(newGameViewModel: NewGameViewModel) =
 
             FullLineText(text = stringResource(id = R.string.number))
             Key.numbers.forEach {
-                KeyControlButton(newGameViewModel = newGameViewModel, it)
-            }
-
-            FullLineText(text = stringResource(id = R.string.special))
-            Key.specials.forEach {
                 KeyControlButton(newGameViewModel = newGameViewModel, it)
             }
 
